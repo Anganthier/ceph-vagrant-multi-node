@@ -2,6 +2,12 @@
 
 # shellcheck disable=SC1091
 . /home/vagrant/.env
+# These env vars are coming from that file:
+# DISK_COUNT
+# NODE_COUNT
+# CEPH_RELEASE
+# NODE
+
 
 env
 exit 0
