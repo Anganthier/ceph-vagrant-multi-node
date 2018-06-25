@@ -7,11 +7,16 @@ BOX_IMAGE ?= centos/7
 DISK_COUNT ?= 1
 DISK_SIZE_GB ?= 10
 
-NODE_COUNT ?= 2
+NODE_COUNT ?= 3
 # Network
 NODE_IP_NW ?= 192.168.25.
 
 CLUSTER_NAME ?= $(shell basename $(MFILECWD))
+
+# Ceph
+CEPH_RELEASE ?= ""
+CEPH_MON_COUNT ?= 3
+CEPH_MAX_MONS ?= 3
 # === END USER OPTIONS ===
 
 preflight:

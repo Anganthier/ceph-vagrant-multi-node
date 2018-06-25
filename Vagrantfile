@@ -13,6 +13,8 @@ NODE_IP = NODE_IP_NW + (i + 10).to_s
 
 # Generate new using steps in README
 CEPH_RELEASE = ENV['CEPH_RELEASE'] || ''.freeze
+CEPH_MON_COUNT = ENV['CEPH_MON_COUNT'] || ''.freeze
+CEPH_MAX_MONS = ENV['CEPH_MAX_MONS'] || ''.freeze
 
 $baseInstallScript = <<SCRIPT
 
@@ -59,7 +61,9 @@ cat << EOF > /home/vagrant/.env
 export DISK_COUNT=#{DISK_COUNT} \
     NODE_COUNT=#{NODE_COUNT} \
     CEPH_RELEASE="#{CEPH_RELEASE}" \
-    NODE=#{i}
+    NODE=#{i} \
+    CEPH_MON_COUNT=#{CEPH_MON_COUNT} \
+    CEPH_MAX_MONS
 EOF
 SCRIPT
 
