@@ -135,4 +135,6 @@ until [ $WAIT_TIME -eq 30 ] || [ "$(ceph health)" == "HEALTH_OK" ]; do
     echo "-> Sleeping $WAIT_TIME before retrying to wait for Ceph to become healthy ..."
     sleep $WAIT_TIME
 done
+echo
+echo "==="
 echo "Ceph reported HEALTH_OK cluster status. Done."
