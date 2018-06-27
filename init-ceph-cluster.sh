@@ -68,6 +68,9 @@ mkdir -p /home/vagrant/.ceph-node-status
 mkdir -p /home/vagrant/ceph-deploy
 cd /home/vagrant/ceph-deploy || { echo "Can't access /root/ceph-deploy"; exit 1; }
 
+# Grant vagrant user access to .ssh/config
+sudo chown vagrant:vagrant /home/vagrant/.ssh/config
+
 if (( CEPH_MON_COUNT > NODE_COUNT )); then
     echo "WARNING! CEPH_MON_COUNT is bigger than NODE_COUNT, will set CEPH_MON_COUNT to NODE_COUNT to prevent issues."
     CEPH_MON_COUNT=$NODE_COUNT
@@ -125,5 +128,11 @@ if [ "$CEPH_RBD_CREATE" = "true" ]; then
     ceph osd pool set rbd size "$CEPH_RBD_POOL_SIZE"
 fi
 
-sudo ceph -s
-echo "'ceph -s' exited with $?. Done."
+WAIT_TIME=0
+until [ $WAIT_TIME -eq 30 ] || [ "$(ceph health)" == "HEALTH_OK" ]; do
+    ceph -s
+    WAIT_TIME=$(( WAIT_TIME++ ))
+    echo "-> Sleeping $WAIT_TIME before retrying to wait for Ceph to become healthy ..."
+    sleep $WAIT_TIME
+done
+echo "Ceph reported HEALTH_OK cluster status. Done."

@@ -43,7 +43,7 @@ type=rpm-md
 gpgkey=https://download.ceph.com/keys/release.asc
 EOM
 yum update -y
-yum install --nogpgcheck -y net-tools screen tree telnet rsync ntp ntpdate
+yum install --nogpgcheck -y net-tools screen tree telnet rsync ntp ntpdate vim
 
 setenforce 0
 sed -i 's/SELINUX=enforcing/SELINUX=enforcing/g' /etc/selinux/config
@@ -61,7 +61,7 @@ sudo chown vagrant:vagrant -R /home/vagrant/.ssh
 chmod 600 /home/vagrant/.ssh/id_rsa
 cat /home/vagrant/.ssh/ceph_authorized_keys >> /home/vagrant/.ssh/authorized_keys
 
-sed -i "/node1/{d;}" /etc/hosts
+sed -i "/node#{i}/{d;}" /etc/hosts
 
 for i in $(seq 1 #{NODE_COUNT}); do
     IP_END_PART=$(( i + 10 ))
