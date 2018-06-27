@@ -7,6 +7,9 @@ NODE_COUNT = ENV["NODE_COUNT"].to_i || 1
 # Disk setup
 DISK_COUNT = ENV['DISK_COUNT'].to_i || 1
 DISK_SIZE_GB = ENV['DISK_SIZE_GB'].to_i || 10
+# Resources
+NODE_CPUS = ENV['NODE_CPUS'].to_i || 1
+NODE_MEMORY_SIZE_GB = ENV['NODE_MEMORY_SIZE_GB'].to_i || 1
 # Network
 NODE_IP_NW = ENV['NODE_IP_NW'] || '192.168.25.'.freeze
 NODE_IP = NODE_IP_NW + (i + 10).to_s
@@ -72,8 +75,8 @@ Vagrant.configure('2') do |config|
     config.vm.box_check_update = true
 
     config.vm.provider 'virtualbox' do |l|
-        l.cpus = 1
-        l.memory = '1024'
+        l.cpus = NODE_CPUS
+        l.memory = NODE_MEMORY_SIZE_GB * 1024
     end
 
     config.vm.define "node#{i}" do |subconfig|
@@ -89,7 +92,7 @@ Vagrant.configure('2') do |config|
                 unless File.exist?(".vagrant/node#{i}-disk-#{diskI}.vdi")
                     vb.customize ['createhd', '--filename', ".vagrant/node#{i}-disk-#{diskI}.vdi", '--variant', 'Standard', '--size', DISK_SIZE_GB * 1024]
                 end
-                vb.customize ['storageattach', :id, '--storagectl', 'SATAController', '--port', diskI - 1, '--device', diskI - 1, '--type', 'hdd', '--medium', ".vagrant/node#{i}-disk-#{diskI}.vdi"]
+                vb.customize ['storageattach', :id, '--storagectl', 'SATAController', '--port', diskI - 1, '--device', 0, '--type', 'hdd', '--medium', ".vagrant/node#{i}-disk-#{diskI}.vdi"]
             end
         end
         subconfig.vm.synced_folder "data/node#{i}/", '/data', type: 'rsync',

@@ -88,3 +88,5 @@ up                             Start Ceph Vagrant multi-node cluster. Creates, s
 | `DISK_SIZE_GB`        | `10` GB       | Size of additional disks added to the VMs.               |
 | `NODE_MEMORY_SIZE_GB` | `1` GB        | Size of memory (in GB) to be allocated for each node VM. |
 | `NODE_COUNT`          | `2`           | How many worker nodes should be spawned.                 |
+| `NODE_CPUS`           | `1` Core      | How many CPU cores to use for each node VM.              |
+| `NODE_MEMORY_SIZE_GB` | `1` GB        | Size of memory (in GB) to be allocated for each node VM. | 

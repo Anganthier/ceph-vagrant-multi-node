@@ -6,6 +6,9 @@ BOX_IMAGE ?= centos/7
 # Disk setup
 DISK_COUNT ?= 1
 DISK_SIZE_GB ?= 10
+# VM Resources
+NODE_CPUS ?= 1
+NODE_MEMORY_SIZE_GB ?= 1
 
 NODE_COUNT ?= 3
 # Network
