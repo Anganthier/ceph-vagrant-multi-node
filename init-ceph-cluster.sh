@@ -121,8 +121,8 @@ if [ "$CEPH_RBD_CREATE" = "true" ]; then
     if (( rc != 22 )); then
         ceph osd pool application enable rbd rbd
     fi
-    ceph osd pool set set rbd min_size 1
-    ceph osd pool set set rbd size "$CEPH_RBD_POOL_SIZE"
+    ceph osd pool set rbd min_size 1
+    ceph osd pool set rbd size "$CEPH_RBD_POOL_SIZE"
 fi
 
 sudo ceph -s
