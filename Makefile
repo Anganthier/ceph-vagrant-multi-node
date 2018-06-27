@@ -17,25 +17,26 @@ NODE_IP_NW ?= 192.168.25.
 CLUSTER_NAME ?= $(shell basename $(MFILECWD))
 
 # Ceph
-CEPH_RELEASE ?= ""
+CEPH_RELEASE ?=
 CEPH_MON_COUNT ?= 3
-CEPH_MAX_MONS ?= 3
 # === END USER OPTIONS ===
 
 preflight: ssh-keygen
 
 ssh-keygen: ## Generate ssh key for `ceph-deploy` command used for the actual Ceph cluster deployment.
-	ssh-keygen -f "$(MFILECWD)/data/id_rsa" -t rsa -b 2048 -N ''
+	if [ ! -f "$(MFILECWD)/data/id_rsa" ]; then \
+		ssh-keygen -f "$(MFILECWD)/data/id_rsa" -t rsa -b 2048 -N ''; \
+	fi
 
 # Readd preflight
-up: start-nodes ## Start Ceph Vagrant multi-node cluster. Creates, starts and bootsup the node VMs.
+up: preflight start-nodes ## Start Ceph Vagrant multi-node cluster. Creates, starts and bootsup the node VMs.
 	make init-ceph-cluster
 
 init-ceph-cluster: ## Run the init-ceph-cluster.sh script to deploy the Ceph cluster (automatically done by `up` target).
-	echo 'source /home/vagrant/.env && sudo /home/vagrant/init-ceph-cluster.sh' | make ssh-node-1
+	echo 'source /home/vagrant/.env && /home/vagrant/init-ceph-cluster.sh' | make ssh-node-1
 
 reset-ceph-cluster: ## Run "Starting Over" commands to "reset" the Ceph cluster.
-	echo 'source /home/vagrant/.env && sudo /home/vagrant/reset-ceph-cluster.sh' | make ssh-node-1
+	echo 'source /home/vagrant/.env && /home/vagrant/reset-ceph-cluster.sh' | make ssh-node-1
 
 start-nodes: $(shell for i in $(shell seq 1 $(NODE_COUNT)); do echo "start-node-$$i"; done) ## Create and start all node VMs by utilizing the `node-X` target (automatically done by `up` target).
 
@@ -61,7 +62,7 @@ clean-nodes: $(shell for i in $(shell seq 1 $(NODE_COUNT)); do echo "clean-node-
 
 clean-data: ## Remove data (shared folders) and disks of all VMs (nodes).
 	rm -rf "$(PWD)/data/*"
-	rm -rf "$(PWD)/.vagrant/KUBETOKEN"
+	rm -rf "$(PWD)/.vagrant/id_rsa*"
 	rm -rf "$(PWD)/.vagrant/*.vdi"
 
 status-node-%: ## Show status of a node VM, where `%` is the number of the node.

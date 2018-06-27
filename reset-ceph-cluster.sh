@@ -3,16 +3,15 @@
 set -ex
 
 # shellcheck disable=SC1091
-. /home/vagrant/.env
+source /home/vagrant/.env
 # These env vars are coming from that file:
 # DISK_COUNT
 # NODE_COUNT
 # CEPH_RELEASE
 # NODE
 # CEPH_MON_COUNT
-# CEPH_MAX_MONS
 
-cd /root/ceph-deploy || { echo "Can't access /root/ceph-deploy. Cluster probably hasn't been 'make up'ed yet."; exit 1; }
+cd /home/vagrant/ceph-deploy || { echo "Can't access /home/vagrant/ceph-deploy. Cluster probably hasn't been 'make up'ed yet."; exit 1; }
 
 for (( i=1; i>=NODE_COUNT; i++ )); do
     ceph-deploy purge "node${i}" &
