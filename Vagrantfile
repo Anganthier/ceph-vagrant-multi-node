@@ -56,6 +56,8 @@ systemctl stop firewalld && \
 
 echo "vagrant ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/vagrant
 chmod 0440 /etc/sudoers.d/vagrant
+
+sudo chown vagrant:vagrant -R /home/vagrant/.ssh
 chmod 600 /home/vagrant/.ssh/id_rsa
 cat /home/vagrant/.ssh/ceph_authorized_keys >> /home/vagrant/.ssh/authorized_keys
 
@@ -66,11 +68,20 @@ for i in $(seq 1 #{NODE_COUNT}); do
     cat << EOF >> /home/vagrant/.ssh/config
 Host node$i
     Hostname #{NODE_IP_NW}$IP_END_PART
-    User ceph-deploy
+    User vagrant
 EOF
     echo "#{NODE_IP_NW}$IP_END_PART node$i" | sudo tee --append /etc/hosts
 done
+
+cat << EOF >> /home/vagrant/.ssh/config
+Host *
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+EOF
+chmod 700 /home/vagrant/.ssh/config
+
 chmod 755 /home/vagrant/init-ceph-cluster.sh
+
 # "Copy" all env vars to VMs that are needed later on
 cat << EOF > /home/vagrant/.env
 export DISK_COUNT=#{DISK_COUNT}
