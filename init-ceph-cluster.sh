@@ -12,14 +12,12 @@ set -ex
 # CEPH_MON_COUNT
 # CEPH_MAX_MONS
 
-cd /root || { echo "Can't acces /root"; exit 1; }
-
 initialMons=""
 for (( i=1; i<=CEPH_MAX_MONS; i++ )); do
     initialMons="${initialMons} node${i}"
 done
 
-mkdir ceph-deploy
+mkdir /root/ceph-deploy
 cd /root/ceph-deploy || { echo "Can't access /root/ceph-deploy"; exit 1; }
 
 # shellcheck disable=SC2086
