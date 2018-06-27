@@ -61,8 +61,8 @@ cat /home/vagrant/.ssh/ceph_authorized_keys >> /home/vagrant/.ssh/authorized_key
 
 sed -i "/node1/{d;}" /etc/hosts
 
-for i in $(seq 1 #{i}); do
-    IP_END_PART=$(( $i + 10 ))
+for i in $(seq 1 #{NODE_COUNT}); do
+    IP_END_PART=$(( i + 10 ))
     cat << EOF >> /home/vagrant/.ssh/config
 Host node$i
     Hostname #{NODE_IP_NW}$IP_END_PART
