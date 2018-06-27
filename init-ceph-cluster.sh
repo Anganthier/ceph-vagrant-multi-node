@@ -69,7 +69,7 @@ else
     CEPH_REPO="rpm"
 fi
 
-cat << EOM > /etc/yum.repos.d/ceph.repo
+cat << EOF | sudo tee /etc/yum.repos.d/ceph.repo
 [ceph-noarch]
 name=Ceph noarch packages
 baseurl=https://download.ceph.com/$CEPH_REPO/el7/noarch
@@ -77,7 +77,7 @@ enabled=1
 gpgcheck=1
 type=rpm-md
 gpgkey=https://download.ceph.com/keys/release.asc
-EOM
+EOF
 
 sudo yum install -y ceph-deploy
 
