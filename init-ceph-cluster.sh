@@ -114,14 +114,16 @@ if [ "$CEPH_RBD_CREATE" = "true" ]; then
     ceph osd pool create rbd "$CEPH_RBD_POOL_PG" "$CEPH_RBD_POOL_PG" replicated
     # check if 'ceph osd pool application enable' is available and
     # if so enable rbd application on 'rbd' pool
-    ceph osd pool application enable 2> /dev/null
-    if (( $? != 22 )); then
+    set +e
+    ceph osd pool application enable > /dev/null 2>&1
+    rc=$?
+    set -e
+    if (( rc != 22 )); then
         ceph osd pool application enable rbd rbd
     fi
     ceph osd pool set set rbd min_size 1
     ceph osd pool set set rbd size "$CEPH_RBD_POOL_SIZE"
 fi
 
-sleep 3
 sudo ceph -s
 echo "'ceph -s' exited with $?. Done."
