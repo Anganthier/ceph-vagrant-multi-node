@@ -26,22 +26,6 @@ $baseInstallScript = <<SCRIPT
 set -x
 
 yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-
-if [ -n "#{CEPH_RELEASE}" ]; then
-    CEPH_REPO="rpm-#{CEPH_RELEASE}"
-else
-    CEPH_REPO="rpm"
-fi
-
-cat << EOM > /etc/yum.repos.d/ceph.repo
-[ceph-noarch]
-name=Ceph noarch packages
-baseurl=https://download.ceph.com/$CEPH_REPO/el7/noarch
-enabled=1
-gpgcheck=1
-type=rpm-md
-gpgkey=https://download.ceph.com/keys/release.asc
-EOM
 yum update -y
 yum install --nogpgcheck -y net-tools screen tree telnet rsync ntp ntpdate vim
 

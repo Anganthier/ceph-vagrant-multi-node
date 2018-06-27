@@ -24,8 +24,10 @@ ceph_deploy_install() {
             touch "/home/vagrant/.ceph-node-status/node${node}"
             return
         fi
-        if [ -e /etc/yum.repos.d/ceph.repo.rpmnew ]; then
-            sudo cp -f /etc/yum.repos.d/ceph.repo.rpmnew /etc/yum.repos.d/ceph.repo
+        if [ $l == 1  ]; then
+            if [ -e /etc/yum.repos.d/ceph.repo.rpmnew ]; then
+                sudo cp -f /etc/yum.repos.d/ceph.repo.rpmnew /etc/yum.repos.d/ceph.repo
+            fi
         fi
     done
 }
@@ -60,6 +62,22 @@ source /home/vagrant/.env
 # CEPH_RBD_CREATE
 # CEPH_RBD_POOL_PG
 # CEPH_RBD_POOL_SIZE
+
+if [ -n "${CEPH_RELEASE}" ]; then
+    CEPH_REPO="rpm-${CEPH_RELEASE}"
+else
+    CEPH_REPO="rpm"
+fi
+
+cat << EOM > /etc/yum.repos.d/ceph.repo
+[ceph-noarch]
+name=Ceph noarch packages
+baseurl=https://download.ceph.com/$CEPH_REPO/el7/noarch
+enabled=1
+gpgcheck=1
+type=rpm-md
+gpgkey=https://download.ceph.com/keys/release.asc
+EOM
 
 sudo yum install -y ceph-deploy
 
