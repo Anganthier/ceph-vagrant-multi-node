@@ -61,6 +61,7 @@ See the `data/VM_NAME/` directories, where `VM_NAME` is for example `node1`.
 ### Show `make` targets
 ```
 $ make help
+ceph-status                    Runs `ceph -s` inside the first node to return the Ceph cluster status.
 clean-data                     Remove data (shared folders) and disks of all VMs (nodes).
 clean-node-%                   Remove a node VM, where `%` is the number of the node.
 clean-nodes                    Remove all node VMs.
@@ -86,7 +87,9 @@ up                             Start Ceph Vagrant multi-node cluster. Creates, s
 | `BOX_IMAGE`           | `centos/7`    | Set the VMs box image to use.                            |
 | `DISK_COUNT`          | `1`           | Set how many additional disks will be added to the VMs.  |
 | `DISK_SIZE_GB`        | `10` GB       | Size of additional disks added to the VMs.               |
-| `NODE_MEMORY_SIZE_GB` | `1` GB        | Size of memory (in GB) to be allocated for each node VM. |
 | `NODE_COUNT`          | `2`           | How many worker nodes should be spawned.                 |
 | `NODE_CPUS`           | `1` Core      | How many CPU cores to use for each node VM.              |
-| `NODE_MEMORY_SIZE_GB` | `1` GB        | Size of memory (in GB) to be allocated for each node VM. | 
+| `NODE_MEMORY_SIZE_GB` | `1` GB        | Size of memory (in GB) to be allocated for each node VM. |
+| `CEPH_RBD_CREATE`     | `true`        | If a pool named `rbd` for rbd should be created.         |
+| `CEPH_RBD_POOL_PG`    | `64` PGs      | Count of PGs to set for the `rbd` pool.                  |
+| `CEPH_RBD_POOL_SIZE`  | `3`           | The `size` of the `rbd` pool (`min_size` is `1`).        |

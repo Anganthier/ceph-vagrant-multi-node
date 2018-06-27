@@ -14,9 +14,12 @@ NODE_MEMORY_SIZE_GB = ENV['NODE_MEMORY_SIZE_GB'].to_i || 1
 NODE_IP_NW = ENV['NODE_IP_NW'] || '192.168.25.'.freeze
 NODE_IP = NODE_IP_NW + (i + 10).to_s
 
-# Generate new using steps in README
+# Ceph
 CEPH_RELEASE = ENV['CEPH_RELEASE'] || ''.freeze
 CEPH_MON_COUNT = ENV['CEPH_MON_COUNT'] || ''.freeze
+CEPH_RBD_CREATE = ENV['CEPH_RBD_CREATE'] || 'true'.freeze
+CEPH_RBD_POOL_PG = ENV['CEPH_RBD_POOL_PG'] || '64'.freeze
+CEPH_RBD_POOL_SIZE = ENV['CEPH_RBD_POOL_SIZE'] || '3'.freeze
 
 $baseInstallScript = <<SCRIPT
 
@@ -75,6 +78,9 @@ export NODE_COUNT=#{NODE_COUNT}
 export CEPH_RELEASE="#{CEPH_RELEASE}"
 export NODE=#{i}
 export CEPH_MON_COUNT=#{CEPH_MON_COUNT}
+export CEPH_RBD_CREATE=#{CEPH_RBD_CREATE}
+export CEPH_RBD_POOL_PG=#{CEPH_RBD_POOL_PG}
+export CEPH_RBD_POOL_SIZE=#{CEPH_RBD_POOL_SIZE}
 EOF
 SCRIPT
 

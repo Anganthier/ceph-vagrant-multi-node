@@ -19,6 +19,9 @@ CLUSTER_NAME ?= $(shell basename $(MFILECWD))
 # Ceph
 CEPH_RELEASE ?=
 CEPH_MON_COUNT ?= 3
+CEPH_RBD_CREATE ?= true
+CEPH_RBD_POOL_PG ?= 64
+CEPH_RBD_POOL_SIZE ?= 3
 # === END USER OPTIONS ===
 
 preflight: ssh-keygen
@@ -53,6 +56,9 @@ stop-nodes: $(shell for i in $(shell seq 1 $(NODE_COUNT)); do echo "stop-node-$$
 ssh-node-%: ## SSH into a node VM, where `%` is the number of the node.
 	NODE=$* vagrant ssh
 
+ceph-status: ## Runs `ceph -s` inside the first node to return the Ceph cluster status.
+	echo "ceph -s" | make ssh-node-1
+
 clean: $(shell for i in $(shell seq 1 $(NODE_COUNT)); do echo "clean-node-$$i"; done) clean-data ## Destroy node VMs, and delete data.
 
 clean-node-%: ## Remove a node VM, where `%` is the number of the node.
@@ -80,5 +86,5 @@ help: ## Show this help menu.
 
 .DEFAULT_GOAL := help
 .EXPORT_ALL_VARIABLES:
-.PHONY: clean clean-data clean-nodes help ssh-keygen start-nodes status-nodes status \
+.PHONY: ceph-status clean clean-data clean-nodes help ssh-keygen start-nodes status-nodes status \
 	stop-nodes stop preflight up

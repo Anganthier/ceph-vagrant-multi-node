@@ -10,6 +10,9 @@ source /home/vagrant/.env
 # CEPH_RELEASE
 # NODE
 # CEPH_MON_COUNT
+# CEPH_RBD_CREATE
+# CEPH_RBD_POOL_PG
+# CEPH_RBD_POOL_SIZE
 
 cd /home/vagrant/ceph-deploy || { echo "Can't access /home/vagrant/ceph-deploy. Cluster probably hasn't been 'make up'ed yet."; exit 1; }
 
