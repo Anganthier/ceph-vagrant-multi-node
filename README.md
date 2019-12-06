@@ -14,6 +14,9 @@
 
 ## Quickstart
 To start with the defaults, 3x nodes, run the following:
+
+Edit the Makefile and set the CEPH_RELEASE (for example nautilus)
+
 ```
 $ make up -j 3
 ```

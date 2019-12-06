@@ -27,7 +27,7 @@ set -x
 
 yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum update -y
-yum install --nogpgcheck -y net-tools screen tree telnet rsync ntp ntpdate vim
+yum install --nogpgcheck -y net-tools screen tree telnet rsync ntp ntpdate vim python2-pip
 
 setenforce 0
 sed -i 's/SELINUX=enforcing/SELINUX=enforcing/g' /etc/selinux/config
