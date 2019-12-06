@@ -79,6 +79,7 @@ type=rpm-md
 gpgkey=https://download.ceph.com/keys/release.asc
 EOF
 
+sudo rpm --import 'https://download.ceph.com/keys/release.asc'
 sudo yum install -y ceph-deploy
 
 mkdir -p /home/vagrant/.ceph-node-status

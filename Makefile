@@ -4,20 +4,20 @@ MFILECWD = $(shell pwd)
 # Box setup
 BOX_IMAGE ?= centos/7
 # Disk setup
-DISK_COUNT ?= 1
-DISK_SIZE_GB ?= 10
+DISK_COUNT ?= 3
+DISK_SIZE_GB ?= 5
 # VM Resources
 NODE_CPUS ?= 1
-NODE_MEMORY_SIZE_GB ?= 1
+NODE_MEMORY_SIZE_GB ?= 2
 
 NODE_COUNT ?= 3
 # Network
-NODE_IP_NW ?= 192.168.25.
+NODE_IP_NW ?= 172.42.42.
 
 CLUSTER_NAME ?= $(shell basename $(MFILECWD))
 
 # Ceph
-CEPH_RELEASE ?=
+CEPH_RELEASE ?= nautilus
 CEPH_MON_COUNT ?= 3
 CEPH_RBD_CREATE ?= true
 CEPH_RBD_POOL_PG ?= 64
